@@ -1,0 +1,66 @@
+local function createBlackBackground()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Parent = game.Players.LocalPlayer.PlayerGui
+    screenGui.ResetOnSpawn = false
+    screenGui.IgnoreGuiInset = true
+    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, 0, 1, 0)
+    frame.BackgroundColor3 = Color3.new(0, 0, 0)
+    frame.Parent = screenGui
+
+    return frame
+end
+
+local function createRainbowText(frame)
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.BackgroundTransparency = 1
+    textLabel.Text = "VR Arms Loading"
+    textLabel.Font = Enum.Font.SourceSansBold
+    textLabel.TextSize = 48
+    textLabel.TextColor3 = Color3.new(1, 1, 1)
+    textLabel.TextTransparency = 1
+    textLabel.TextScaled = true
+    textLabel.TextWrapped = true
+    textLabel.Parent = frame
+
+    local gradient = Instance.new("UIGradient")
+    gradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
+        ColorSequenceKeypoint.new(0.14, Color3.fromRGB(255, 127, 0)),
+        ColorSequenceKeypoint.new(0.28, Color3.fromRGB(255, 255, 0)),
+        ColorSequenceKeypoint.new(0.42, Color3.fromRGB(0, 255, 0)),
+        ColorSequenceKeypoint.new(0.56, Color3.fromRGB(0, 0, 255)),
+        ColorSequenceKeypoint.new(0.70, Color3.fromRGB(75, 0, 130)),
+        ColorSequenceKeypoint.new(0.84, Color3.fromRGB(143, 0, 255)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 0))
+    })
+    gradient.Parent = textLabel
+
+    return textLabel
+end
+
+local function fadeInText(textLabel, duration)
+    for i = 0, 1, 0.01 do
+        textLabel.TextTransparency = 1 - i
+        wait(duration / 100)
+    end
+    textLabel.TextTransparency = 0
+end
+
+local function fadeOutText(textLabel, duration)
+    for i = 0, 1, 0.01 do
+        textLabel.TextTransparency = i
+        wait(duration / 100)
+    end
+    textLabel.TextTransparency = 1
+end
+
+local frame = createBlackBackground()
+local textLabel = createRainbowText(frame)
+fadeInText(textLabel, 1)
+wait(5)
+fadeOutText(textLabel, 1)
+frame.Parent:Destroy()
